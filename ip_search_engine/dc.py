@@ -4,7 +4,7 @@ from OSINT.common.generic import get_data
 
 
 parser = configparser.ConfigParser()
-parser.read('../conf')
+parser.read('../config/conf')
 
 
 def shodan(ip):

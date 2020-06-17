@@ -29,7 +29,7 @@ def signals(ip):
 
 
 def virustotal(ip):
-    params = {'apikey': parser.get('VirusTotal', 'apiy_ke') + ip, 'ip': ip}
+    params = {'apikey': parser.get('VirusTotal', 'apiy_key') + ip, 'ip': ip}
     response = requests.get(parser.get('VirusTotal', 'url') + 'ip-address/report', params=params)
     return response
 

@@ -34,7 +34,7 @@ def read_input_csv(inputfile):
     domain_list = []
     with open(inputfile) as inf:
         reader = csv.reader(inf)
-        reader.__next__() # skip header
+        reader.__next__()  # skip header
         for i in reader:
 
             if '-' in i[0]:

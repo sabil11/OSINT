@@ -7,7 +7,7 @@ err_cnt = collections.defaultdict(int)
 SKIP_RESPONSE_CODES = [404]
 
 
-def get_data(func, ip, run_date, force=False):
+def get_data(func, resp_type, ip, run_date, force=False):
     source = func.__name__
     print(ip, source)
     with MDB() as mdb:
@@ -19,8 +19,10 @@ def get_data(func, ip, run_date, force=False):
                 print(traceback.format_exc())
                 err_cnt[source] += 1
             if resp.status_code == 200:
-                data = resp.json()
-                print(data)
+                if resp_type == 'json':
+                    data = resp.json()
+                else:
+                    data = resp.content
                 mdb.append(source, ip, run_date, data)
                 return True
             elif resp.status_code in SKIP_RESPONSE_CODES:

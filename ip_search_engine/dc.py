@@ -1,15 +1,16 @@
+import os
 import requests
 import configparser
 from OSINT.common.web import get_data
 
-
+config_file = os.path.join(os.path.dirname(__file__), 'ip_search_engine.conf')
 parser = configparser.ConfigParser()
-parser.read('ip_search_engine.conf')
+parser.read(config_file)
 
 
 def shodan(ip):
-    url = parser.get('Shondan', 'url')
-    api_key = parser.get('Shondan', 'API_KEY')
+    url = parser.get('Shodan', 'url')
+    api_key = parser.get('Shodan', 'API_KEY')
     url = url + '%s?key=%s&minify=True' % (ip, api_key)
     return requests.get(url)
 
@@ -26,13 +27,19 @@ def binaryedge(ip):
     return requests.get(parser.get('BinaryEdge', 'URL') + ip, headers=headers)
 
 
-def onyphe(ip):
+def onypye(ip):
     headers = {
         'Authorization': 'apikey %s' % parser.get('Onypye', 'API_KEY'),
         'Content-Type': 'application/json',
     }
     response = requests.get(parser.get('Onypye', 'url') + 'summary/ip/%s' % ip, headers=headers)
     return response
+
+
+def run(ip):
+    for sec in parser.sections():
+        resp_type = parser.get(sec, 'type')
+        get_data(eval(sec.lower()), resp_type,  ip, '2020-06-19')
 
 
 if __name__ == '__main__':

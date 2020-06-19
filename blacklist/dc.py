@@ -1,10 +1,10 @@
+import os
 import requests
-from urllib import request, parse
 import configparser
 from OSINT.common.web import get_data
-
+config_file = os.path.join(os.path.dirname(__file__), 'blacklist.conf')
 parser = configparser.ConfigParser()
-parser.read('blacklist.conf')
+parser.read(config_file)
 
 HEADERS = {
     'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36',
@@ -54,6 +54,12 @@ def virustotal(ip):
     # __utma=194538546.1945727751.1591424955.1592477820.1592477820.1; __utmc=194538546;
     # __utmz=194538546.1592477820.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _gat=1',
     return requests.get('https://www.virustotal.com/ui/search', headers=headers, params=params)
+
+
+def run(ip):
+    for sec in parser.sections():
+        resp_type = parser.get(sec, 'type')
+        get_data(eval(sec.lower()), resp_type, ip, '2020-06-19')
 
 
 if __name__ == '__main__':

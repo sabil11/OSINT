@@ -1,7 +1,7 @@
 import requests
 import traceback
 import collections
-from OSINT.common.db import MongoDBConnection as MDB
+from OSINT.common.db import MongoDBConnection as mDB
 
 err_cnt = collections.defaultdict(int)
 SKIP_RESPONSE_CODES = [404]
@@ -10,7 +10,7 @@ SKIP_RESPONSE_CODES = [404]
 def get_data(func, resp_type, ip, run_date, force=False):
     source = func.__name__
     print(ip, source)
-    with MDB() as mdb:
+    with mDB() as mdb:
         res = mdb.collection.find_one({'input_ip': ip, 'run_date': run_date, 'source': source})
         if (err_cnt[source] < 3) and (force or not res):
             try:

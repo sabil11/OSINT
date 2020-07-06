@@ -1,17 +1,16 @@
 from OSINT.common.input import read_input_csv
-import OSINT.ip_search_engine.dc as ip_search_engine_dc
-import OSINT.blacklist.dc as blacklist_dc
+import OSINT.search_engine.ip as ip_search_engine_dc
+import OSINT.blacklist.ip as blacklist_dc
+from OSINT.data_source import virustotal, shodan, otx
 
 
-def main(ip_list, run='both'):
+def ip_search(ip_list, run='both'):
     if run == 'dc':
-        for ip in ip_list:
-            ip_search_engine_dc.run(ip)
-            blacklist_dc.run(ip)
-
+        vt = virustotal.Virustotal()
+        vt.run("ip", ip_list, "2020-07-06")
 
 
 if __name__ == '__main__':
     iplist, domain_list = read_input_csv('input.csv')
     print(iplist, domain_list)
-    main(iplist, 'dc')
+    ip_search(iplist, 'dc')

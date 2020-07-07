@@ -9,15 +9,13 @@ err_cnt = collections.defaultdict(int)
 SKIP_RESPONSE_CODES = [404]
 
 
-def get_data(func, term, run_date, force=False, retry=0):
-    source = func.__name__
+def get_data(func, term, resp_type, source, run_date, force=False, retry=0):
     print(term, source)
     with mDB() as mdb:
         res = mdb.collection.find_one({'input': term, 'run_date': run_date, 'source': source})
         if (err_cnt[source] < 3) and (force or not res):
             try:
                 resp = func(term)
-                resp_type = config.get(source, 'type')
             except requests.Timeout as e:
                 print(traceback.format_exc())
                 err_cnt[source] += 1

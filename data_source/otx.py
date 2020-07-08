@@ -8,23 +8,23 @@ class Otx(object):
     # TODO Need to add other sections reputation, geo, malware, url_list, passive_dns
     def __init__(self, ):
 
-        self.url, self.api_key = config.get_n(self.__class__.__name__.upper(), 'url', 'api_key')
+        self.baseurl, self.api_key = config.get_n(self.__class__.__name__.upper(), 'url', 'api_key')
         self.headers = {'X-OTX-API-KEY': self.api_key}
 
     def ip(self, term):
-        url = self.url + 'IPv4/%s/%s' %(term, 'general')
+        url = self.baseurl + 'IPv4/%s/%s' %(term, 'general')
         return requests.get(url, headers=self.headers)
 
     def domain(self, term):
-        url = self.url + 'domain/%s/%s' %(term, 'general')
+        url = self.baseurl + 'domain/%s/%s' %(term, 'general')
         return requests.get(url, headers=self.headers)
 
     def hash(self, term):
-        url = self.url + 'file/%s/%s' %(term, 'general')
+        url = self.baseurl + 'file/%s/%s' %(term, 'general')
         return requests.get(url, headers=self.headers)
 
     def search(self, term):
-        url = self.url + "search/pulses/"
+        url = self.baseurl + "search/pulses/"
         params = {"q": term}
         return requests.get(url, params=params, headers=self.headers)
 

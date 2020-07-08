@@ -34,8 +34,8 @@ class Virustotal(object):
     def run(self, search_type, values, run_date):
         total = len(values)
         for c, i in enumerate(values, 1):
-            get_data(eval("self." + search_type), i, self.source_type, self.classname, run_date)
-            if c < total:
+            resp = get_data(eval("self." + search_type), i, self.source_type, self.classname, run_date)
+            if resp or c < total:
                 # to skip last sleep
                 time.sleep(15)
 

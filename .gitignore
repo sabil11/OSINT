@@ -127,8 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-search_engine/ip_search_engine.conf
-/blacklist/blacklist.conf
-input.csv
-/threat_intel/threat_intel.conf
+../../scarp/osint_old/search_engine/ip_search_engine.conf
+/osint_old/blacklist/blacklist.conf
+docs/input.csv
+/osint_old/threat_intel/threat_intel.conf
 /config/source.conf

@@ -129,6 +129,6 @@ dmypy.json
 .pyre/
 ../../scarp/osint_old/search_engine/ip_search_engine.conf
 /osint_old/blacklist/blacklist.conf
-docs/input.csv
+docs/
 /osint_old/threat_intel/threat_intel.conf
 /config/source.conf

@@ -36,7 +36,6 @@ def read_input_csv(inputfile):
         reader = csv.reader(inf)
         reader.__next__()  # skip header
         for i in reader:
-
             if '-' in i[0]:
                 nt, start, end = re.findall('(\d+\.\d+\.\d+\.)(\d+)\-(\d+)', i[0])[0]
                 for oct in range(int(start), int(end) + 1):
@@ -48,3 +47,21 @@ def read_input_csv(inputfile):
             elif validators.domain(i):
                 domain_list.append(i[0])
     return list(set(ip_list)), list(set(domain_list))
+
+
+def parse_db_list(s_type, inp_list):
+    temp = []
+
+    for i in inp_list:
+        if s_type == 'ip':
+            if '-' in i:
+                nt, start, end = re.findall(r"(\d+\.\d+\.\d+\.)(\d+)\-(\d+)", i)[0]
+                for oct in range(int(start), int(end) + 1):
+                    temp.append(str(ipaddress.ip_address(nt + str(oct))))
+            elif validators.ipv4_cidr(i):
+                temp.extend([str(ip) for ip in ipaddress.ip_network(i)])
+            elif validators.ipv4(i):
+                temp.append(str(ipaddress.ip_address(i)))
+        elif validators.domain(i):
+            temp.append(i)
+    return temp
